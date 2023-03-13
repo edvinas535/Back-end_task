@@ -2,7 +2,7 @@ function ValidateIP(ip, type1)
     local R = {ERROR = 0, IPV4 = 1, IPV6 = 2}
     if type(ip) ~= "string" then return R.ERROR end
     if type1 == "ipv4" then   
-        -- check for format 1.11.111.111 for ipv4
+        -- check ipv4 format 
         local chunks = {ip:match("^(%d+)%.(%d+)%.(%d+)%.(%d+)$")}
         if #chunks == 4 then
         for _,v in pairs(chunks) do
@@ -11,9 +11,7 @@ function ValidateIP(ip, type1)
         return R.IPV4
         end
     elseif type1 == "ipv6" then
-        -- check for ipv6 format, should be 8 'chunks' of numbers/letters
-        -- without leading/trailing chars
-        -- or fewer than 8 chunks, but with only one `::` group
+        -- check ipv6 format
         local chunks = {ip:match("^"..(("([a-fA-F0-9]*):"):rep(8):gsub(":$","$")))}
         if #chunks == 8
         or #chunks < 8 and ip:match('::') and not ip:gsub("::","",1):match('::') then
@@ -77,21 +75,18 @@ function main()
         return
     end
     local IPType = {[0] = "Error", "IPv4", "IPv6"}
-    --io.write("Enter IP type: ")
-    local type1 = arg[1] --io.read()
+    local type1 = arg[1]
     if type1 == "ipv4" or type1 == "ipv6" then
-        --io.write("Enter first IP address: ")
-        local ip1 = arg[2] --io.read()
-        --io.write("Enter second IP address: ")
-        local ip2 = arg[3] --io.read()
+        local ip1 = arg[2]
+        local ip2 = arg[3]
         local checked_ip1 = ValidateIP(ip1, type1)
         local checked_ip2 = ValidateIP(ip2, type1)
         if checked_ip1 == checked_ip2 and (checked_ip1 == 1 or checked_ip1 == 2) then
             local decimal1 = ipToDecimal(ip1,checked_ip1)
             local decimal2 = ipToDecimal(ip2,checked_ip1)
             if decimal1 < decimal2 then
-                io.write("The range between ",IPType[checked_ip1]," adresses ", ip1, " and ", ip2, " is ", decimal2 - decimal1, " in decimal format.\n")
-            else io.write(IPType[checked_ip1]," second address (",ip2, ") is equal to or smaller than first one (", ip2, ")\n")
+                io.write("The range between ",IPType[checked_ip1]," adresses ", ip1, " and ", ip2, " is ", decimal2 - decimal1, "\n")
+            else io.write(IPType[checked_ip1]," second address (",ip2, ") is equal to or smaller than first one (", ip1, ")\n")
             end
         else print("It's not IP address or their types are different")
         end
