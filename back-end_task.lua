@@ -86,11 +86,11 @@ function main()
             local decimal2 = ipToDecimal(ip2,checked_ip1)
             if decimal1 < decimal2 then
                 io.write("The range between ",IPType[checked_ip1]," adresses ", ip1, " and ", ip2, " is ", decimal2 - decimal1, "\n")
-            else io.write(IPType[checked_ip1]," second address (",ip2, ") is equal to or smaller than first one (", ip1, ")\n")
+            else io.write("The second ",IPType[checked_ip1]," address (",ip2, ") is equal to or smaller than the first one (", ip1, ")\n")
             end
         else print("It's not IP address or their types are different")
         end
-    else print("Incorrect IP type!")
+    else print("Incorrect IP address type!")
     end
 end
 main()
